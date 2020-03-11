@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Technopark_HW1</string>
+    <string name="app_name">Технопарк ДЗ1</string>
+    <string name="button_text">Добавить число</string>
 </resources>
