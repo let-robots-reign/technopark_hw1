@@ -1,5 +1,6 @@
 package com.technopark.technopark_hw1;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,13 @@ public class NumbersAdapter extends RecyclerView.Adapter<NumbersAdapter.NumbersV
 
     @Override
     public void onBindViewHolder(@NonNull NumbersViewHolder holder, int position) {
-        holder.numberValue.setText(String.valueOf(numbers.get(position)));
+        int value = numbers.get(position);
+        holder.numberValue.setText(String.valueOf(value));
+        if (value % 2 == 0) {
+            holder.numberValue.setTextColor(Color.RED);
+        } else {
+            holder.numberValue.setTextColor(Color.BLUE);
+        }
     }
 
     @Override
