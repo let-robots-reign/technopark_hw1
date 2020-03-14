@@ -16,9 +16,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class DisplayList extends Fragment {
-    private static final String DATA_KEY = "NUMBERS";
+    private String DATA_KEY = "numbers";
     private ArrayList<Integer> numbers;
     private RecyclerView list;
+    private NumbersAdapter adapter;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // generating data
+        if (savedInstanceState == null) {
+            numbers = new ArrayList<>();
+            for (int i = 1; i <= 100; i++) {
+                numbers.add(i);
+            }
+        } else {
+            numbers = savedInstanceState.getIntegerArrayList(DATA_KEY);
+        }
+    }
 
     @Nullable
     @Override
@@ -39,17 +56,8 @@ public class DisplayList extends Fragment {
         }
         list.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 
-        // generating data
-        if (savedInstanceState == null) { // if there's nothing to restore
-            numbers = new ArrayList<>();
-            for (int i = 1; i <= 100; i++) {
-                numbers.add(i);
-            }
-        } else {
-            numbers = savedInstanceState.getIntegerArrayList(DATA_KEY);
-        }
         // connecting to the adapter
-        final NumbersAdapter adapter = new NumbersAdapter(numbers);
+        adapter = new NumbersAdapter(getActivity(), numbers);
         list.setAdapter(adapter);
 
         // adding a new number
