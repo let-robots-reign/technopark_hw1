@@ -41,6 +41,9 @@ public class DisplayList extends Fragment {
         } else {
             numbers = savedInstanceState.getIntegerArrayList(DATA_KEY);
         }
+        // connecting to the adapter
+        adapter = new NumbersAdapter(numbers);
+        adapter.setClickListener(clickListener);
     }
 
     @Nullable
@@ -61,11 +64,6 @@ public class DisplayList extends Fragment {
             columns = 4;
         }
         list.setLayoutManager(new GridLayoutManager(getActivity(), columns));
-
-        // connecting to the adapter
-        adapter = new NumbersAdapter(numbers);
-        adapter.setClickListener(clickListener);
-
         list.setAdapter(adapter);
 
         // adding a new number
