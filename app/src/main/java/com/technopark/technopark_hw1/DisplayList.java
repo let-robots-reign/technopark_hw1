@@ -1,5 +1,6 @@
 package com.technopark.technopark_hw1;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,12 +21,17 @@ public class DisplayList extends Fragment {
     private ArrayList<Integer> numbers;
     private RecyclerView list;
     private NumbersAdapter adapter;
+    private NumberClickListener clickListener;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        clickListener = (NumberClickListener) context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // generating data
         if (savedInstanceState == null) {
             numbers = new ArrayList<>();
@@ -57,7 +63,9 @@ public class DisplayList extends Fragment {
         list.setLayoutManager(new GridLayoutManager(getActivity(), columns));
 
         // connecting to the adapter
-        adapter = new NumbersAdapter(getActivity(), numbers);
+        adapter = new NumbersAdapter(numbers);
+        adapter.setClickListener(clickListener);
+
         list.setAdapter(adapter);
 
         // adding a new number
@@ -79,5 +87,16 @@ public class DisplayList extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntegerArrayList(DATA_KEY, numbers);
+    }
+
+    @Override
+    public void onDetach() {
+        clickListener = null;
+        super.onDetach();
+    }
+
+    // an interface to process fragment replacement (implementation in Activity)
+    public interface NumberClickListener {
+        void onClick(int value, int color);
     }
 }
